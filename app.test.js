@@ -46,24 +46,53 @@ const {faker} = require('@faker-js/faker')
 // });
 
 
-describe('POST /student', () => {
-    it('should create a student', async () => {
-        const name = faker.name.firstName();
-        const email = faker.internet.email();
-        const city = faker.address.city();
-        const phone_number = faker.phone.phoneNumber();
-        const text = faker.lorem.paragraph();
-        const response = await supertest(app).post('/student').send({name,email,city,phone_number,text});
-        const db = await pool.query(`SELECT * FROM student WHERE name = '${name}' AND email = '${email}' AND city = '${city}' AND phone_number = '${phone_number}' AND text = '${text}';`);
-        assert.equal(response.status, 201);
-        assert.equal(response.body.message, 'Student created');
-        assert.equal(db.rows[0].name, name);
-        assert.equal(db.rows[0].email, email);
-        assert.equal(db.rows[0].city, city);
-        assert.equal(db.rows[0].phone_number, phone_number);
-        assert.equal(db.rows[0].text, text)
+// describe('POST /student', () => {
+//     it('should create a student', async () => {
+//         const name = faker.name.firstName();
+//         const email = faker.internet.email();
+//         const city = faker.address.city();
+//         const phone_number = faker.phone.phoneNumber();
+//         const text = faker.lorem.paragraph();
+//         const response = await supertest(app).post('/student').send({name,email,city,phone_number,text});
+//         const db = await pool.query(`SELECT * FROM student WHERE name = '${name}' AND email = '${email}' AND city = '${city}' AND phone_number = '${phone_number}' AND text = '${text}';`);
+//         assert.equal(response.status, 201);
+//         assert.equal(response.body.message, 'Student created');
+//         assert.equal(db.rows[0].name, name);
+//         assert.equal(db.rows[0].email, email);
+//         assert.equal(db.rows[0].city, city);
+//         assert.equal(db.rows[0].phone_number, phone_number);
+//         assert.equal(db.rows[0].text, text)
+//     });
+// });
+
+describe('PUT /student', () => {
+    it('should return `No id provided` if not provide id', async () => {
+       const response = await supertest(app).put('/student').send({name: 'test'});
+       assert.equal(response.status, 400);
+       assert.equal(response.body.message, 'No id provided');
     });
 });
 
+describe('PUT /student', () => {
+    it('should return `Could not update student` if id not exists', async () => {
+       const response = await supertest(app).put('/student').send({id:'8ebd84b8-90b2-4aa2-94ba-5645938e61b9',name: 'test'});
+       assert.equal(response.status, 400);
+       assert.equal(response.body.message, 'Could not update student');
+    });
+});
+
+describe('PUT /student', () => {
+    it('should update a student', async () => {
+        const id = '8ebd84b8-90b2-4aa2-94ba-5645938e61b8';
+        const name = faker.name.fullName();
+        const email = faker.internet.email();
+       const response = await supertest(app).put('/student').send({id,name,email});
+       const db = await pool.query(`SELECT * FROM student WHERE id = '${id}';`);
+       assert.equal(response.status, 202);
+       assert.equal(response.body.message, 'Student updated');
+       assert.equal(db.rows[0].name, name);
+         assert.equal(db.rows[0].email, email);
+    });
+});
 
 
