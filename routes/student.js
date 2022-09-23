@@ -34,4 +34,25 @@ studentRoute.post('/', async(req, res) => {
     }
 });
 
+studentRoute.put('/', async(req, res) => {
+    try {
+        if (req.body.id === undefined) throw new Error('No id provided');
+        const genSQL = (obj) => {
+            let sql = 'UPDATE student SET ';
+            for (let[key,value] of Object.entries(obj)){
+                if (value !== undefined && key !== 'id') sql += `${key} = '${value}',`;
+            }
+            sql += `WHERE id = '${obj.id}';`;
+            return sql.replace(',WHERE', ' WHERE');
+        }
+        const SQL = genSQL(req.body);
+        const result = await pool.query(SQL);
+        if (result.rowCount !== 1) throw new Error('Could not update student');
+        res.status(202).json({message:'Student updated'});
+    } catch (error) {
+        res.status(400).json({message:error.message});
+    }
+});
+
+
 module.exports = studentRoute;
