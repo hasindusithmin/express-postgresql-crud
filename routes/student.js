@@ -54,5 +54,16 @@ studentRoute.put('/', async(req, res) => {
     }
 });
 
+studentRoute.delete('/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const result = await pool.query("DELETE FROM student WHERE id = $1;", [id]);
+        if (result.rowCount !== 1) throw new Error('Could not delete student');
+        res.status(202).json({message:'Student deleted'});
+    } catch (error) {
+        res.status(400).json({message:error.message});
+    }
+});
+
 
 module.exports = studentRoute;
