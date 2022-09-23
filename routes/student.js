@@ -25,11 +25,12 @@ studentRoute.get('/:id', async(req, res) => {
 
 studentRoute.post('/', async(req, res) => {
     try {
-        const {name,email,city,phone,text} = req.body;
-        const result = await pool.query("INSERT INTO student (name,email,city,phone,text) VALUES ($1,$2,$3,$4,$5);", [name,email,city,phone,text]);
-        res.status(201).json(result);
+        const {name,email,city,phone_number,text} = req.body;
+        const result = await pool.query("INSERT INTO student (name,email,city,phone_number,text) VALUES ($1,$2,$3,$4,$5);", [name,email,city,phone_number,text]);
+        if (result.rowCount !== 1) throw new Error('Could not create student');
+        res.status(201).json({message:'Student created'});
     } catch (error) {
-        res.status(500).json({message:error.message});
+        res.status(400).json({message:error.message});
     }
 });
 

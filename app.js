@@ -5,6 +5,8 @@ const studentRoute = require('./routes/student');
 
 const app = express();
 
+app.use(express.json());
+
 app.use('/student', studentRoute);
 
 app.get('/status', (req, res) => {
