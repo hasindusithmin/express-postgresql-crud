@@ -54,7 +54,7 @@ describe('POST /student', () => {
         const phone_number = faker.phone.phoneNumber();
         const text = faker.lorem.paragraph();
         const response = await supertest(app).post('/student').send({name,email,city,phone_number,text});
-        const db = await pool.query(`SELECT * FROM student WHERE name = '${name}' AND email = '${email}' AND city = '${city}' AND phone_number = '${phone}' AND text = '${text}';`);
+        const db = await pool.query(`SELECT * FROM student WHERE name = '${name}' AND email = '${email}' AND city = '${city}' AND phone_number = '${phone_number}' AND text = '${text}';`);
         assert.equal(response.status, 201);
         assert.equal(response.body.message, 'Student created');
         assert.equal(db.rows[0].name, name);
