@@ -1,13 +1,16 @@
 
 const express = require('express');
 const pool = require('./db');
-
+const studentRoute = require('./routes/student');
 
 const app = express();
+
+app.use('/student', studentRoute);
 
 app.get('/status', (req, res) => {
     res.sendStatus(200);
 })
+
 
 app.listen(3000, async() => {
     console.log('Server started on port 3000');
