@@ -83,7 +83,7 @@ describe('PUT /student', () => {
 
 describe('PUT /student', () => {
     it('should update a student', async () => {
-        const id = '86e034c4-d95f-4191-9388-e839090943c4';
+        const id = '5c6e20e8-f1a7-42c3-939f-e731b8f7e332';
         const name = faker.name.fullName();
         const email = faker.internet.email();
        const response = await supertest(app).put('/student').send({id,name,email});
@@ -98,7 +98,7 @@ describe('PUT /student', () => {
 
 describe('DELETE /student/:id', () => {
     it('should delete a student', async () => {
-        const id = '86e034c4-d95f-4191-9388-e839090943c4'
+        const id = '5c6e20e8-f1a7-42c3-939f-e731b8f7e332'
        const response = await supertest(app).delete(`/student/${id}`);
        const db = await pool.query(`SELECT * FROM student WHERE id = '${id}';`);
        assert.equal(response.status, 202);
