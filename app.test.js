@@ -61,7 +61,7 @@ describe('POST /student', () => {
         assert.equal(db.rows[0].email, email);
         assert.equal(db.rows[0].city, city);
         assert.equal(db.rows[0].phone_number, phone_number);
-        assert.equal(db.rows[0].text, text);
+        assert.equal(db.rows[0].text, text)
     });
 });
 
