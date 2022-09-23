@@ -65,33 +65,57 @@ const {faker} = require('@faker-js/faker')
 //     });
 // });
 
-describe('PUT /student', () => {
-    it('should return `No id provided` if not provide id', async () => {
-       const response = await supertest(app).put('/student').send({name: 'test'});
-       assert.equal(response.status, 400);
-       assert.equal(response.body.message, 'No id provided');
-    });
-});
+// describe('PUT /student', () => {
+//     it('should return `No id provided` if not provide id', async () => {
+//        const response = await supertest(app).put('/student').send({name: 'test'});
+//        assert.equal(response.status, 400);
+//        assert.equal(response.body.message, 'No id provided');
+//     });
+// });
 
-describe('PUT /student', () => {
-    it('should return `Could not update student` if id not exists', async () => {
-       const response = await supertest(app).put('/student').send({id:'8ebd84b8-90b2-4aa2-94ba-5645938e61b9',name: 'test'});
-       assert.equal(response.status, 400);
-       assert.equal(response.body.message, 'Could not update student');
-    });
-});
+// describe('PUT /student', () => {
+//     it('should return `Could not update student` if id not exists', async () => {
+//        const response = await supertest(app).put('/student').send({id:'8ebd84b8-90b2-4aa2-94ba-5645938e61b9',name: 'test'});
+//        assert.equal(response.status, 400);
+//        assert.equal(response.body.message, 'Could not update student');
+//     });
+// });
 
-describe('PUT /student', () => {
-    it('should update a student', async () => {
-        const id = '8ebd84b8-90b2-4aa2-94ba-5645938e61b8';
-        const name = faker.name.fullName();
-        const email = faker.internet.email();
-       const response = await supertest(app).put('/student').send({id,name,email});
+// describe('PUT /student', () => {
+//     it('should update a student', async () => {
+//         const id = '8ebd84b8-90b2-4aa2-94ba-5645938e61b8';
+//         const name = faker.name.fullName();
+//         const email = faker.internet.email();
+//        const response = await supertest(app).put('/student').send({id,name,email});
+//        const db = await pool.query(`SELECT * FROM student WHERE id = '${id}';`);
+//        assert.equal(response.status, 202);
+//        assert.equal(response.body.message, 'Student updated');
+//        assert.equal(db.rows[0].name, name);
+//          assert.equal(db.rows[0].email, email);
+//     });
+// });
+
+
+describe('DELETE /student/:id', () => {
+    it('should delete a student', async () => {
+        const id = 'd3fb370a-ad69-4bf4-9111-df30a11129a9'
+       const response = await supertest(app).delete(`/student/${id}`);
        const db = await pool.query(`SELECT * FROM student WHERE id = '${id}';`);
        assert.equal(response.status, 202);
-       assert.equal(response.body.message, 'Student updated');
-       assert.equal(db.rows[0].name, name);
-         assert.equal(db.rows[0].email, email);
+       assert.equal(response.body.message, 'Student deleted');
+       assert.equal(db.rows.length, 0);
     });
-});
+})
 
+describe('DELETE /student/:id', () => {
+    it('should return `Could not delete student` if id does not exists', async () => {
+        const id = '7a52426f-fcb2-406e-b710-7cb08289b099'
+       const response = await supertest(app).delete(`/student/${id}`);
+       const db = await pool.query(`SELECT * FROM student WHERE id = '${id}';`);
+       assert.equal(response.status, 400);
+       assert.equal(response.body.message, 'Could not delete student');
+       assert.equal(db.rows.length, 0);
+    });
+})
+
+DELETE /student/:id ✓ should delete a student  ✓ should return `Could not delete student` if id does not exists
