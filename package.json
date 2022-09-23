@@ -1,0 +1,25 @@
+{
+  "name": "express-postgresql-crud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasindusithmin/express-postgresql-crud.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hasindusithmin/express-postgresql-crud/issues"
+  },
+  "homepage": "https://github.com/hasindusithmin/express-postgresql-crud#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "pg": "^8.8.0",
+    "supertest": "^6.2.4"
+  }
+}
